@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http.Headers;
@@ -15,6 +16,7 @@ namespace BankApp
         public static List<User> Users { get; set; }
         public static int accountNo = 1;
         public static int userNo = 1;
+        private const string path = "../../../test.json";
 
         public enum Actions
         {
@@ -44,29 +46,6 @@ namespace BankApp
             }
         }
 
-        //public static void Create2(this string[] input)
-        //{
-        //    if (input.Length < 4)
-        //    {
-        //        Console.WriteLine($"Incorrect number of elements dectected, please use the format \"{ActionText[Actions.Create].InputFormat}\", ensuring there are spaces between each element");
-        //        return;
-        //    }
-        //    if (input.Length > 4)
-        //    {
-        //        Console.WriteLine($"Incorrect number of elements dectected, please use the format \"{ActionText[Actions.Create].InputFormat}\" and hyphenate any multi part names");
-        //        return;
-        //    }
-        //    var amountText = input[3];
-        //    var parsed = decimal.TryParse(amountText, out var amount);
-        //    if (!parsed)
-        //    {
-        //        Console.WriteLine($"Failed to parse {ActionText[Actions.Create].AmountText}, please ensure that the ammount is only numeric and does not include a currency sign");
-        //        return;
-        //    }
-        //    Accounts.Add(new Account($"{input[1]} {input[2]}", amount, ref accountNo));
-        //    Console.WriteLine($"Account created successfully! Your account number is {Accounts.Last().AccountNumber}");
-        //}
-
         public static void Create(string accountName, decimal initialBalance)
         {
             Console.WriteLine("Please create a 4 to 8 digit pin");
@@ -76,7 +55,7 @@ namespace BankApp
                 Console.WriteLine($"Failed to parse pin, please ensure that the pin is only numeric is between 4 and 8 digits.");
                 return;
             }
-            if (activeUser != null)
+            if (activeUser == null)
             {
                 Users.Add(new User(accountName, initialBalance));
                 activeUser = Users.Last();
@@ -100,43 +79,6 @@ namespace BankApp
             account.Balance -= amount;
             Console.WriteLine($"Your remaining balance is {account.Balance}");
         }
-
-        //public static void Withdraw2(this string[] input)
-        //{
-        //    if (input.Length < 3)
-        //    {
-        //        Console.WriteLine($"Incorrect number of elements dectected, please use the format \"{ActionText[Actions.Withdraw].InputFormat}\", ensuring there are spaces between each element");
-        //        return;
-        //    }
-        //    if (input.Length > 3)
-        //    {
-        //        Console.WriteLine($"Incorrect number of elements dectected, please use the format \"{ActionText[Actions.Withdraw].InputFormat}\"");
-        //        return;
-        //    }
-        //    var amountText = input[2];
-        //    var parsed = decimal.TryParse(amountText, out var amount);
-        //    var account = Accounts.First(a => a.AccountNumber == input[1]);
-        //    if (account == null)
-        //    {
-        //        Console.WriteLine("Account not found, please check your account number or create an account to get started");
-        //        return;
-        //    }
-        //    if (!parsed)
-        //    {
-        //        Console.WriteLine($"Failed to parse {ActionText[Actions.Withdraw].AmountText}, please ensure that the ammount is only numeric and does not include a currency sign");
-        //        return;
-        //    }
-        //    if (account!.Balance < amount)
-        //    {
-        //        Console.WriteLine("lmao you broke boi");
-        //        return;
-        //    }
-        //    else
-        //    {
-        //        account.Balance -= amount;
-        //        Console.WriteLine($"Your remaining balance is {account.Balance}");
-        //    }
-        //}
 
         public static void Deposit(Account account, decimal amount)
         {
@@ -217,6 +159,7 @@ namespace BankApp
                     Console.WriteLine("\"Delete\" to delete accounts (tbc)");
                     Console.WriteLine("\"Suspend\" to suspend accounts (tbc)");
                     Console.WriteLine("\"Unsuspend\" to un-suspend accounts (tbc)");
+                    Console.WriteLine("\"List\" to list accounts for this user");
                     Console.WriteLine();
                     Console.WriteLine("\"4321\": Switches to an interface made for numpad users");
                     Console.WriteLine();
@@ -231,6 +174,17 @@ namespace BankApp
         {
             Console.WriteLine("Later skater");
             quit = true;
+
+            var users = JsonConvert.SerializeObject(Users);
+            File.WriteAllText(path, users);
+        }
+
+        public static void InitialiseUsers()
+        {
+            Console.WriteLine("Setting up existing users");
+
+            var userJson = File.ReadAllText(path);
+            Users = JsonConvert.DeserializeObject<List<User>>(userJson);
         }
 
         public static void Setup(ref bool quit, ref bool numMode)

@@ -22,7 +22,7 @@ namespace BankApp
                     quit = true;
                     break;
                 case "3":
-                    Help(true, false);
+                    Help(true, activeUser?.IsAdmin ?? false);
                     break;
                 case "1":
                     Console.WriteLine("Account withdrawals.");
@@ -72,7 +72,10 @@ namespace BankApp
                     Console.WriteLine("tbc");
                     break;
                 case "10" when activeUser?.IsAdmin ?? false:
-                    Console.WriteLine("tbc");
+                    foreach (var user in Users)
+                    {
+                        Console.WriteLine(user.ToString());
+                    }
                     break;
                 case "11" when activeUser?.IsAdmin ?? false:
                     Setup(ref quit, ref numMode);
@@ -91,10 +94,10 @@ namespace BankApp
             switch (input)
             {
                 case "quit":
-                    quit = true;
+                    Quit(ref quit);
                     break;
                 case "help":
-                    Help(false, true);
+                    Help(false, activeUser?.IsAdmin ?? false);
                     break;
                 case string when input.Contains("create"):
                     var create = input.Split(' ');
@@ -126,7 +129,7 @@ namespace BankApp
                         break;
                     }
 
-                    var withdrawAmount = withdraw[3].ValidateTransactionInput();
+                    var withdrawAmount = withdraw[2].ValidateTransactionInput();
                     if (withdrawAmount == null)
                     {
                         break;
@@ -148,7 +151,7 @@ namespace BankApp
                         break;
                     }
 
-                    var depositAmount = deposit[3].ValidateTransactionInput();
+                    var depositAmount = deposit[2].ValidateTransactionInput();
                     if (depositAmount == null)
                     {
                         break;
@@ -175,6 +178,12 @@ namespace BankApp
                     numMode = true;
                     Console.WriteLine($"Switching to numpad {(activeUser?.IsAdmin ?? false ? "admin " : "")}mode.");
                     Help(numMode, activeUser?.IsAdmin ?? false);
+                    break;
+                case "list" when activeUser?.IsAdmin ?? false:
+                    foreach (var user in Users)
+                    {
+                        Console.WriteLine(user.ToString());
+                    }
                     break;
                 default:
                     Console.WriteLine($"Command not recognised, you are currently in Keyboard mode type \"help\" for a list of available commands");

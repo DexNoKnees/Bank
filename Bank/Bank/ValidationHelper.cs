@@ -53,7 +53,7 @@ namespace BankApp
         {
             Account? account = null;
 
-            if (Users.Any(u => u.UserAccounts.Any(a =>
+            if (!Users.Any(u => u.UserAccounts.Any(a =>
             {
                 if (a.AccountNumber == accNo)
                 {

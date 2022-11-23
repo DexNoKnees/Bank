@@ -1,0 +1,36 @@
+[
+    {
+        "UserAccounts": [
+            {
+                "Balance": 100.0,
+                "AccountNumber": "194265",
+                "Name": "test 1",
+                "Password": null,
+                "Pin": 0,
+                "Email": null
+            }
+        ],
+        "Username": null,
+        "Password": null,
+        "UserId": 170013172,
+        "Email": null,
+        "IsAdmin": false
+    },
+    {
+        "UserAccounts": [
+            {
+                "Balance": 100.0,
+                "AccountNumber": "194262",
+                "Name": "test admin",
+                "Password": null,
+                "Pin": 0,
+                "Email": null
+            }
+        ],
+        "Username": null,
+        "Password": null,
+        "UserId": 170013172,
+        "Email": null,
+        "IsAdmin": true
+    }
+]

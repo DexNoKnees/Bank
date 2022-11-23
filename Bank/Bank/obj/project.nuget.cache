@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "sTqEdRGYrWISq4oFyMjVqocrrQG2KtKH5O/Mrza0Sp4cKSzzLX091W6gZKQS52ptjMkZ/LTGEmdkur2ITcIWmg==",
+  "dgSpecHash": "GoREztH+o9AOJfqQijG1WLUKwNl0cJ+S5w27olUPbv/9Q0gJQNGMyTOt37+ZHIRKQ1qEf3ibiyW8hCf8xmDaoQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\decla\\Documents\\Coding\\Excercises\\Bank\\Bank\\Bank\\BankApp.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\decla\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512"
+  ],
   "logs": []
 }

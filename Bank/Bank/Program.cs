@@ -14,6 +14,7 @@ internal class Program
         var quit = false;
         var numMode = true;
 
+        InitialiseUsers();
         Setup(ref quit, ref numMode);
 
 

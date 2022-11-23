@@ -13,3 +13,5 @@ C:\Users\decla\Documents\Coding\Excercises\Bank\Bank\Bank\obj\Debug\net6.0\refin
 C:\Users\decla\Documents\Coding\Excercises\Bank\Bank\Bank\obj\Debug\net6.0\BankApp.pdb
 C:\Users\decla\Documents\Coding\Excercises\Bank\Bank\Bank\obj\Debug\net6.0\BankApp.genruntimeconfig.cache
 C:\Users\decla\Documents\Coding\Excercises\Bank\Bank\Bank\obj\Debug\net6.0\ref\BankApp.dll
+C:\Users\decla\Documents\Coding\Excercises\Bank\Bank\Bank\bin\Debug\net6.0\Newtonsoft.Json.dll
+C:\Users\decla\Documents\Coding\Excercises\Bank\Bank\Bank\obj\Debug\net6.0\BankApp.csproj.CopyComplete

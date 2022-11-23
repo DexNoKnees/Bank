@@ -15,12 +15,14 @@ namespace BankApp
 
         public class User
         {
-            public List<Account> UserAccounts = new List<Account>();
+            public List<Account> UserAccounts = new();
             public string Username;
             public string Password;
             public int UserId;
             public string Email;
             public bool IsAdmin;
+
+            public User() { }
 
             public User(int? userId = null)
             {
@@ -35,6 +37,17 @@ namespace BankApp
                 UserId = int.Parse($"{userNo}{new Random().Next(99999999)}");
 
                 UserAccounts.Add(new Account(accountName, initialBalance));
+            }
+
+            public override string ToString()
+            {
+                var printUser = $"{UserId} {Username} {(IsAdmin ? " Admin": string.Empty)}\n";
+                List<string> printAccounts = new List<string>();
+                foreach (var account in UserAccounts)
+                {
+                    printAccounts.Add($"\t{account.Name} {account.AccountNumber} {account.Balance}");
+                }
+                return printUser + string.Join(null, printAccounts);
             }
         }
 
@@ -60,7 +73,7 @@ namespace BankApp
             User adminUser = null;
             if (!Users.Any(u => u.UserAccounts.Any(a =>
                 {
-                    if (a.AccountNumber == accNo && a.IsAdmin)
+                    if (a.AccountNumber == accNo && u.IsAdmin)
                     {
                         adminUser = u;
                         return true;
