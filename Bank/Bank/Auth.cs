@@ -32,20 +32,20 @@ namespace BankApp
                 }
             }
 
-            public User(string accountName, decimal initialBalance)
+            public User(string accountName, decimal initialBalance, int pin)
             {
                 UserId = int.Parse($"{userNo}{new Random().Next(99999999)}");
 
-                UserAccounts.Add(new Account(accountName, initialBalance));
+                UserAccounts.Add(new Account(accountName, initialBalance, pin));
             }
 
             public override string ToString()
             {
-                var printUser = $"{UserId} {Username} {(IsAdmin ? " Admin": string.Empty)}\n";
+                var printUser = $"UserId: {UserId}, UserName: {Username} {(IsAdmin ? " Admin": string.Empty)}\n";
                 List<string> printAccounts = new List<string>();
                 foreach (var account in UserAccounts)
                 {
-                    printAccounts.Add($"\t{account.Name} {account.AccountNumber} {account.Balance}");
+                    printAccounts.Add("\t" + account.ToString() + "\n");
                 }
                 return printUser + string.Join(null, printAccounts);
             }
@@ -88,10 +88,9 @@ namespace BankApp
             var attempts = 0;
             while (attempts < 3)
             {
-                if (Console.ReadLine() == "1234")
+                if (Console.ReadLine() == adminUser.Password)
                 {
-                    Console.WriteLine("Welcome!");
-                    //TODO: implement username in above
+                    Console.WriteLine($"Welcome! {adminUser.Username}");
                     activeUser = adminUser;
                     return true;
                 }
@@ -105,9 +104,26 @@ namespace BankApp
             return false;
         }
 
-        public static bool ValidatePin(this string pin)
+        public static bool AccountAuth(this Account account)
         {
-            return true;
+            Console.WriteLine("Please enter your account pin");
+            var attempts = 0;
+            while (attempts < 3)
+            {
+                int.TryParse(Console.ReadLine(), out int pin);
+                if (pin == account.Pin)
+                {
+                    Console.WriteLine($"Welcome! {account.Name}");
+                    return true;
+                }
+                else
+                {
+                    Console.WriteLine("Pin incorrect, please try again.");
+                    attempts++;
+                }
+            }
+            Console.WriteLine("Too many incorrect attempts, please contact your administrator.");
+            return false;
         }
 
         public static void LoginSetup(string username, string password)

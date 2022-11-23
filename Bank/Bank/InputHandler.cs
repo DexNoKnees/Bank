@@ -41,6 +41,11 @@ namespace BankApp
                         break;
                     }
 
+                    if (!withdrawAcc.AccountAuth())
+                    {
+                        break;
+                    }
+
                     Withdraw(withdrawAcc, withdrawAmount.Value);
                     break;
                 case "2":
@@ -60,10 +65,30 @@ namespace BankApp
                         break;
                     }
 
+                    if (!depositAcc.AccountAuth())
+                    {
+                        break;
+                    }
+
                     Deposit(depositAcc, depositAmount.Value);
                     break;
-                case "5" when activeUser?.IsAdmin ?? false:
-                    Console.WriteLine("tbc");
+                case "5":
+                    Account account;
+                    if (activeUser == null)
+                    {
+                        Console.WriteLine("Please enter your account number");
+                        account = ValidateAcc(Console.ReadLine());
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Hi {activeUser.Username}! Please enter the account number you wish to view.");
+                        account = ValidateAcc(Console.ReadLine());
+                    }
+                    if(!account.AccountAuth())
+                    {
+                        break;
+                    }
+                    
                     break;
                 case "6" when activeUser?.IsAdmin ?? false:
                     Console.WriteLine("tbc");
@@ -135,6 +160,11 @@ namespace BankApp
                         break;
                     }
 
+                    if (!withdrawAcc.AccountAuth())
+                    {
+                        break;
+                    }
+
                     Withdraw(withdrawAcc, withdrawAmount.Value);
                     break;
                 case string when input.Contains("deposit"):
@@ -153,6 +183,11 @@ namespace BankApp
 
                     var depositAmount = deposit[2].ValidateTransactionInput();
                     if (depositAmount == null)
+                    {
+                        break;
+                    }
+
+                    if (!depositAcc.AccountAuth())
                     {
                         break;
                     }
@@ -180,10 +215,15 @@ namespace BankApp
                     Help(numMode, activeUser?.IsAdmin ?? false);
                     break;
                 case "list" when activeUser?.IsAdmin ?? false:
-                    foreach (var user in Users)
+                    ListUsers();
+                    break;
+                case "summary":
+                    if (activeUser == null)
                     {
-                        Console.WriteLine(user.ToString());
+                        Console.WriteLine("Please sign in to view accounts.");
+                        break;
                     }
+                    ListAccounts();
                     break;
                 default:
                     Console.WriteLine($"Command not recognised, you are currently in Keyboard mode type \"help\" for a list of available commands");

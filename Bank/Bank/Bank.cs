@@ -49,20 +49,19 @@ namespace BankApp
         public static void Create(string accountName, decimal initialBalance)
         {
             Console.WriteLine("Please create a 4 to 8 digit pin");
-            var pinValidation = ValidatePin(Console.ReadLine());
-            if (!pinValidation.Valid)
+            var pin = ValidatePin();
+            if (pin == null)
             {
-                Console.WriteLine($"Failed to parse pin, please ensure that the pin is only numeric is between 4 and 8 digits.");
                 return;
             }
             if (activeUser == null)
             {
-                Users.Add(new User(accountName, initialBalance));
+                Users.Add(new User(accountName, initialBalance, pin.Value));
                 activeUser = Users.Last();
             }
             else
             {
-                activeUser.UserAccounts.Add(new Account(accountName, initialBalance));
+                activeUser.UserAccounts.Add(new Account(accountName, initialBalance, pin.Value));
             }
             Console.WriteLine($"Account created successfully! Your account number is {activeUser.UserAccounts.Last().AccountNumber}");
         }
@@ -86,34 +85,23 @@ namespace BankApp
             Console.WriteLine($"Your new balance is {account.Balance}");
         }
 
-        //public static void Deposit2(this string[] input)
-        //{
-        //    if (input.Length < 3)
-        //    {
-        //        Console.WriteLine($"Incorrect number of elements dectected, please use the format \"{ActionText[Actions.Deposit].InputFormat}\", ensuring there are spaces between each element");
-        //        return;
-        //    }
-        //    if (input.Length > 3)
-        //    {
-        //        Console.WriteLine($"Incorrect number of elements dectected, please use the format \"{ActionText[Actions.Deposit].InputFormat}\"");
-        //        return;
-        //    }
-        //    var amountText = input[2];
-        //    var parsed = decimal.TryParse(amountText, out var amount);
-        //    var account = Accounts.FirstOrDefault(a => a.AccountNumber == input[1]);
-        //    if (account == null)
-        //    {
-        //        Console.WriteLine("Account not found, please check your account number or create an account to get started");
-        //        return;
-        //    }
-        //    if (!parsed)
-        //    {
-        //        Console.WriteLine($"Failed to parse {ActionText[Actions.Deposit].AmountText}, please ensure that the ammount is only numeric and does not include a currency sign");
-        //        return;
-        //    }
-        //    account.Balance += amount;
-        //    Console.WriteLine($"Your new balance is {account.Balance}");
-        //}
+        public static void ListUsers()
+        {
+            foreach (var user in Users)
+            {
+                Console.WriteLine(user.ToString());
+            }
+        }
+
+        public static void ListAccounts()
+        {
+            foreach (var account in activeUser.UserAccounts)
+            {
+                Console.WriteLine(account.ToString());
+            }
+        }
+
+
 
         public static void Help(bool numMode, bool admin)
         {

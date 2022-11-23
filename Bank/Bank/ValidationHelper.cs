@@ -29,14 +29,28 @@ namespace BankApp
             return true;
         }
 
-        public static (bool Valid, int? Pin) ValidatePin(string pin)
+        public static int? ValidatePin()
         {
-            if (pin.Length > 8 || pin.Length < 4)
+            var attempts = 0;
+            while (attempts < 3)
             {
-                return (false, null);
+                if (!int.TryParse(Console.ReadLine(), out int pin))
+                {
+                    Console.WriteLine($"Failed to parse pin, please ensure that the pin is only numeric.");
+                }
+                else if (pin > 99999999 || pin < 1000)
+                {
+                    Console.WriteLine($"Please set a pin between 4 and 8 digits.");
+                }
+                else
+                {
+                    Console.WriteLine("Thank you! Your pin is set.");
+                    return pin;
+                }
+                attempts++;
             }
-            var valid = int.TryParse(pin, out int intPin);
-            return (valid, intPin);
+            Console.WriteLine("Too many incorrect attempts, please contact your administrator.");
+            return null;
         }
 
         public static decimal? ValidateTransactionInput(this string input)

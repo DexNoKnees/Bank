@@ -13,16 +13,20 @@ namespace BankApp
         public decimal Balance { get; set; }
         public string AccountNumber { get; set; }
         public string Name { get; set; }
-        public string Password { get; set; }
         public int Pin { get; set; }
-        public string Email { get; set; }
 
-        public Account(string name, decimal balance)
+        public Account(string name, decimal balance, int pin)
         {
             Name = name;
             Balance = balance;
+            Pin = pin;
             AccountNumber = $"{accountNo}{new Random().Next(99999999)}";
             accountNo++;
+        }
+        public override string ToString()
+        {
+
+            return $"Account number: {AccountNumber}, Account holder: {Name}, Balance: {Balance}";
         }
     }
 }
